@@ -11,7 +11,10 @@
 
   --color-cream: #f5f0e8;
   --color-stone: #9a9288;
-  --color-stone-dark: #6b655c;
+  /* Lightened from #6b655c (~3.55:1, failed WCAG AA) to clear 4.5:1 for the
+     small tertiary text it's used on (status badge, footer, labels) while
+     staying a notch dimmer than --color-stone. */
+  --color-stone-dark: #8c857a;
 
   --color-amber: #c8966a;
   --color-amber-light: #e8b878;
