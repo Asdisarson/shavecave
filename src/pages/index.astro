@@ -1,6 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
 import { services, business, hours, hoursMinutes } from "../data/site";
+import storefront from "../assets/photos/storefront.jpg";
+import teamPhoto from "../assets/photos/team.jpg";
+import teamGroup from "../assets/photos/team-group.jpg";
+import stylist1 from "../assets/photos/stylist-1.jpg";
+import stylist2 from "../assets/photos/stylist-2.jpg";
+
+// Gallery photos — tile aspect matched to each photo's orientation so
+// object-cover crops as little as possible.
+const galleryPhotos = [
+  { img: storefront, alt: "Shave Cave klippistofan við Fákafeni 9 að kvöldlagi", w: "20rem", h: "28rem" },
+  { img: teamPhoto, alt: "Teymið hjá Shave Cave", w: "26rem", h: "20rem" },
+  { img: teamGroup, alt: "Hluti af teymi Shave Cave við merkið", w: "20rem", h: "26rem" },
+  { img: stylist1, alt: "Hárgreiðslufólk hjá Shave Cave", w: "26rem", h: "20rem" },
+  { img: stylist2, alt: "Hárgreiðslufólk hjá Shave Cave", w: "24rem", h: "19rem" },
+];
 ---
 
 <Layout>
@@ -284,15 +300,14 @@ import { services, business, hours, hoursMinutes } from "../data/site";
           class="reveal delay-2 relative md:col-span-2"
         >
           <div class="relative aspect-[3/4] overflow-hidden rounded-sm border border-border bg-surface">
-            <div class="absolute inset-0 bg-gradient-to-br from-deep via-surface to-deep"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-              <svg viewBox="0 0 120 160" class="h-3/5 w-3/5 opacity-[0.07]" fill="none" stroke="currentColor" stroke-width="0.3">
-                <path d="M60 10 L60 150" class="text-amber"></path>
-                <circle cx="60" cy="40" r="25" class="text-amber"></circle>
-                <circle cx="60" cy="80" r="35" class="text-border-light"></circle>
-                <circle cx="60" cy="120" r="15" class="text-amber"></circle>
-              </svg>
-            </div>
+            <Image
+              src={storefront}
+              alt="Shave Cave klippistofan við Fákafeni 9 í Reykjavík að kvöldlagi"
+              width={900}
+              quality={80}
+              format="webp"
+              class="absolute inset-0 h-full w-full object-cover"
+            />
             <div
               class="pointer-events-none absolute inset-0 bg-gradient-to-t from-deep/80 via-transparent to-amber/5"
               aria-hidden="true"
@@ -399,42 +414,21 @@ import { services, business, hours, hoursMinutes } from "../data/site";
       >
         <div class="shrink-0 w-[calc(50vw-12rem)] md:w-[calc(50vw-20rem)]" aria-hidden="true"></div>
         {
-          [
-            { w: "22rem", h: "28rem", hue: 25 },
-            { w: "18rem", h: "22rem", hue: 35 },
-            { w: "24rem", h: "18rem", hue: 20 },
-            { w: "20rem", h: "26rem", hue: 30 },
-            { w: "16rem", h: "20rem", hue: 40 },
-            { w: "22rem", h: "24rem", hue: 15 },
-          ].map((img, i) => (
+          galleryPhotos.map((photo, i) => (
             <div
               class={`reveal-scale ${i > 0 ? `delay-${Math.min(i, 5)}` : ""} group relative shrink-0 snap-center overflow-hidden rounded-sm border border-border bg-surface`}
-              style={`width: ${img.w}; height: ${img.h};`}
+              style={`width: ${photo.w}; height: ${photo.h};`}
             >
-              <div
-                class="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
-                style={`background: linear-gradient(${135 + i * 30}deg, hsl(${img.hue}, 35%, 6%) 0%, hsl(${img.hue}, 45%, 12%) 50%, hsl(${img.hue}, 30%, 5%) 100%);`}
+              <Image
+                src={photo.img}
+                alt={photo.alt}
+                width={760}
+                quality={78}
+                format="webp"
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div class="absolute inset-0 flex items-center justify-center">
-                <svg
-                  viewBox="0 0 100 100"
-                  class="h-16 w-16 opacity-[0.06] transition-opacity group-hover:opacity-[0.12]"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="0.5"
-                >
-                  <circle cx="50" cy="50" r={30 + i * 3} class="text-amber" />
-                  <line
-                    x1={20 + i * 5}
-                    y1={20 + i * 5}
-                    x2={80 - i * 5}
-                    y2={80 - i * 5}
-                    class="text-amber"
-                  />
-                </svg>
-              </div>
-              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-              <span class="absolute bottom-5 left-5 font-display text-[0.6rem] tracking-[0.3em] text-cream/0 transition-all duration-500 group-hover:text-cream/80">
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-90" />
+              <span class="absolute bottom-5 left-5 font-display text-[0.6rem] tracking-[0.3em] text-cream/0 transition-all duration-500 group-hover:text-cream/85">
                 SHAVECAVE
               </span>
             </div>
