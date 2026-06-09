@@ -57,13 +57,15 @@ const stitched = await sharp({
   .png()
   .toBuffer();
 
-// Dark theme: desaturate, invert, gentle contrast — matches the site palette.
-const dark = await sharp(stitched)
-  .grayscale()
-  .negate({ alpha: false })
-  .modulate({ brightness: 1.18 })
-  .linear(1.06, 6)
-  .toBuffer();
+// Dark theme: desaturate, invert, brighten — matches the site palette.
+// NOTE: sharp applies its operations in a FIXED internal order (linear runs
+// *before* negate), regardless of the order you chain them — so doing
+// grayscale().negate().linear() in one pipeline silently brightens-then-
+// inverts, making the map *darker* the more you "brighten" it. Run each step
+// as its own pass so the order is exactly: grayscale → invert → brighten.
+const grayscale = await sharp(stitched).grayscale().toBuffer();
+const inverted = await sharp(grayscale).negate({ alpha: false }).toBuffer();
+const dark = await sharp(inverted).modulate({ brightness: 3.5 }).toBuffer();
 
 // Amber pin at the exact location, anchored at its bottom tip. Composited
 // AFTER the dark transform so it keeps its true brand colour.

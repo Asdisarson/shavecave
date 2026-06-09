@@ -2,20 +2,18 @@
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { services, business, hours, hoursMinutes } from "../data/site";
-import storefront from "../assets/photos/storefront.jpg";
-import teamPhoto from "../assets/photos/team.jpg";
-import teamGroup from "../assets/photos/team-group.jpg";
-import stylist1 from "../assets/photos/stylist-1.jpg";
-import stylist2 from "../assets/photos/stylist-2.jpg";
+import storefront from "../assets/photos/shave-cave-klippistofa-fakafeni-9-reykjavik.jpg";
+import teamPhoto from "../assets/photos/shave-cave-teymi-klippistofa-reykjavik.jpg";
+import galleryPool from "../assets/photos/shave-cave-billjardbord-reykjavik.jpg";
+import gallerySalon from "../assets/photos/shave-cave-klippistofa-innanhuss-reykjavik.jpg";
+import galleryLounge from "../assets/photos/shave-cave-afthreyingarrymi-reykjavik.jpg";
 
 // Gallery photos — tile aspect matched to each photo's orientation so
 // object-cover crops as little as possible.
 const galleryPhotos = [
-  { img: storefront, alt: "Shave Cave klippistofan við Fákafeni 9 að kvöldlagi", w: "20rem", h: "28rem" },
-  { img: teamPhoto, alt: "Teymið hjá Shave Cave", w: "26rem", h: "20rem" },
-  { img: teamGroup, alt: "Hluti af teymi Shave Cave við merkið", w: "20rem", h: "26rem" },
-  { img: stylist1, alt: "Hárgreiðslufólk hjá Shave Cave", w: "26rem", h: "20rem" },
-  { img: stylist2, alt: "Hárgreiðslufólk hjá Shave Cave", w: "24rem", h: "19rem" },
+  { img: galleryPool, alt: "Útskorið Shave Cave merki og billjardborð inni á klippistofunni í Reykjavík", w: "24rem", h: "24rem" },
+  { img: gallerySalon, alt: "Klippistofa Shave Cave að innan — rakarastólar og upplýstir speglar við Fákafeni 9", w: "20rem", h: "27rem" },
+  { img: galleryLounge, alt: "Afþreyingarrými Shave Cave í Reykjavík með leiktækjum og sófa", w: "20rem", h: "27rem" },
 ];
 ---
 
@@ -32,10 +30,16 @@ const galleryPhotos = [
     >
       <a
         href="#hero"
-        class="font-display text-base font-semibold tracking-[0.3em] text-cream md:text-lg"
+        class="flex items-center"
         aria-label="ShaveCave — efst á síðu"
       >
-        SHAVE<span class="text-amber">CAVE</span>
+        <img
+          src="/images/logo.png"
+          alt=""
+          width="854"
+          height="854"
+          class="h-11 w-11 object-contain md:h-12 md:w-12"
+        />
       </a>
 
       <nav class="hidden items-center gap-10 md:flex" aria-label="Primary">
@@ -48,7 +52,7 @@ const galleryPhotos = [
           ].map((item) => (
             <a
               href={item.href}
-              class="group relative font-body text-[0.8rem] font-medium tracking-[0.15em] uppercase text-stone transition-colors hover:text-amber-light"
+              class="group relative font-body text-sm font-medium tracking-[0.15em] uppercase text-stone transition-colors hover:text-amber-light"
             >
               {item.label}
               <span class="absolute -bottom-1 left-0 h-px w-0 bg-amber transition-all duration-300 group-hover:w-full" />
@@ -66,7 +70,7 @@ const galleryPhotos = [
         >
           <span class="status-dot h-2 w-2 rounded-full bg-stone-dark"></span>
           <span
-            class="font-body text-[0.7rem] font-medium uppercase tracking-widest text-stone-dark"
+            class="font-body text-xs font-medium uppercase tracking-widest text-stone-dark"
             id="status-text">—</span
           >
         </div>
@@ -174,22 +178,44 @@ const galleryPhotos = [
 
       <div class="hero-content-delayed relative z-10 mx-auto max-w-5xl text-center">
         <p
-          class="reveal mb-8 font-body text-[0.65rem] font-medium uppercase tracking-[0.6em] text-amber md:text-xs"
+          class="reveal mb-8 font-body text-xs font-medium uppercase tracking-[0.6em] text-amber md:text-sm"
         >
           Fákafeni 9 · Reykjavík
         </p>
 
         <h1
           id="hero-title"
-          class="font-display text-[3.2rem] font-semibold leading-none tracking-[0.18em] text-cream sm:text-7xl md:text-8xl lg:text-9xl"
+          class="font-display text-[clamp(2rem,10vw,3.2rem)] font-semibold leading-none tracking-[0.18em] text-cream sm:text-7xl md:text-8xl lg:text-9xl"
           aria-label="ShaveCave"
         >
           SHAVE<span class="text-amber">CAVE</span>
         </h1>
 
+        <div
+          class="reveal delay-2 mx-auto mt-9 flex items-center justify-center gap-2.5 font-body text-base tracking-[0.12em] text-stone md:text-lg"
+        >
+          <svg
+            class="h-4 w-4 text-amber/80"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>Mán–Fös</span>
+          <span class="tabular-nums text-cream"
+            >{hours.weekdayOpen}–{hours.weekdayClose}</span
+          >
+        </div>
+
         <div class="mx-auto mt-10 max-w-md">
           <p
-            class="reveal delay-3 font-body text-lg leading-relaxed font-light text-stone md:text-xl"
+            class="reveal delay-3 font-body text-xl leading-relaxed font-normal text-stone md:text-2xl"
           >
             Engar tímapantanir. Ekkert vesen.<br />Bara nákvæmni og handverk.
           </p>
@@ -202,7 +228,8 @@ const galleryPhotos = [
             href="https://www.google.com/maps/dir/?api=1&destination=Fákafeni+9,+108+Reykjavík,+Iceland"
             target="_blank"
             rel="noopener noreferrer"
-            class="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-sm border border-amber/40 bg-amber/10 px-12 py-4 font-body text-sm font-medium tracking-[0.2em] uppercase text-amber-light transition-all duration-300 hover:border-amber hover:bg-amber/20 hover:shadow-[0_0_60px_-10px_rgba(200,150,90,0.5)]"
+            data-directions
+            class="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-sm border border-amber/40 bg-amber/10 px-12 py-4 font-body text-base font-medium tracking-[0.2em] uppercase text-amber-light transition-all duration-300 hover:border-amber hover:bg-amber/20 hover:shadow-[0_0_60px_-10px_rgba(200,150,90,0.5)]"
           >
             <svg class="relative z-10 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
@@ -216,7 +243,7 @@ const galleryPhotos = [
           </a>
           <a
             href="#services"
-            class="inline-flex items-center justify-center rounded-sm border border-border px-12 py-4 font-body text-sm font-medium tracking-[0.2em] uppercase text-stone transition-all duration-300 hover:border-amber/40 hover:text-cream"
+            class="inline-flex items-center justify-center rounded-sm border border-border px-12 py-4 font-body text-base font-medium tracking-[0.2em] uppercase text-stone transition-all duration-300 hover:border-amber/40 hover:text-cream"
           >
             Þjónusta
           </a>
@@ -254,7 +281,7 @@ const galleryPhotos = [
         <div class="reveal flex flex-col justify-center md:col-span-3">
           <div class="mb-6 flex items-center gap-4">
             <span class="h-px w-12 bg-amber"></span>
-            <span class="font-body text-[0.65rem] font-medium uppercase tracking-[0.4em] text-amber"
+            <span class="font-body text-xs font-medium uppercase tracking-[0.4em] text-amber"
               >Um okkur</span
             >
           </div>
@@ -265,13 +292,13 @@ const galleryPhotos = [
             Skapað fyrir handverkið
           </h2>
 
-          <p class="mt-8 font-body text-lg leading-relaxed text-stone">
+          <p class="mt-8 font-body text-xl leading-relaxed text-stone">
             Shave Cave er klippistofa í Reykjavík sem sérhæfir sig í herraklippingum og skeggsnyrtingum.
             Við blandum saman klassískri tækni og nútíma nákvæmni — engar efnameðhöndlanir, ekkert vesen.
             Bara hvöss verkfæri, stöðugar hendur og rólegt andrúmsloft.
           </p>
 
-          <p class="mt-6 font-body text-lg leading-relaxed text-stone">
+          <p class="mt-6 font-body text-xl leading-relaxed text-stone">
             Engar tímapantanir. Klippum alla en sérhæfum okkur í herraklippingum og skeggum —
             skin fade, skeggmótun, rakstur og allt þar á milli.
           </p>
@@ -287,7 +314,7 @@ const galleryPhotos = [
                   <p class="font-display text-2xl font-semibold text-amber md:text-3xl">
                     {stat.num}
                   </p>
-                  <p class="mt-1 font-body text-xs tracking-wider text-stone-dark">
+                  <p class="mt-1 font-body text-sm tracking-wider text-stone-dark">
                     {stat.label}
                   </p>
                 </div>
@@ -299,11 +326,11 @@ const galleryPhotos = [
         <div
           class="reveal delay-2 relative md:col-span-2"
         >
-          <div class="relative aspect-[3/4] overflow-hidden rounded-sm border border-border bg-surface">
+          <div class="relative aspect-[4/3] overflow-hidden rounded-sm border border-border bg-surface">
             <Image
-              src={storefront}
-              alt="Shave Cave klippistofan við Fákafeni 9 í Reykjavík að kvöldlagi"
-              width={900}
+              src={teamPhoto}
+              alt="Teymið hjá Shave Cave klippistofu við Fákafeni 9 í Reykjavík"
+              width={1100}
               quality={80}
               format="webp"
               class="absolute inset-0 h-full w-full object-cover"
@@ -343,7 +370,7 @@ const galleryPhotos = [
         <div class="reveal mb-20 max-w-2xl">
           <div class="mb-6 flex items-center gap-4">
             <span class="h-px w-12 bg-amber"></span>
-            <span class="font-body text-[0.65rem] font-medium uppercase tracking-[0.4em] text-amber"
+            <span class="font-body text-xs font-medium uppercase tracking-[0.4em] text-amber"
               >Þjónusta</span
             >
           </div>
@@ -361,10 +388,10 @@ const galleryPhotos = [
                 class={`service-card reveal ${i > 0 ? `delay-${Math.min(i, 5)}` : ""} group rounded-sm border border-border bg-surface/60 p-8 transition-all duration-500 hover:-translate-y-1 hover:border-amber/30 hover:bg-surface/90 hover:shadow-[0_8px_60px_-15px_rgba(200,150,90,0.2)]`}
               >
                 <div class="relative z-10">
-                  <h3 class="font-display text-xl tracking-wide text-cream transition-colors group-hover:text-amber-light">
+                  <h3 class="font-display text-2xl tracking-wide text-cream transition-colors group-hover:text-amber-light">
                     {s.name}
                   </h3>
-                  <p class="mt-5 font-body text-sm leading-relaxed text-stone">
+                  <p class="mt-5 font-body text-base leading-relaxed text-stone">
                     {s.desc}
                   </p>
                 </div>
@@ -373,7 +400,7 @@ const galleryPhotos = [
           }
         </div>
 
-        <p class="reveal mt-10 text-center font-body text-sm text-stone-dark">
+        <p class="reveal mt-10 text-center font-body text-base text-stone-dark">
           Engar efnameðhöndlanir
         </p>
       </div>
@@ -393,7 +420,7 @@ const galleryPhotos = [
         <div class="reveal mb-16 text-center">
           <div class="mb-6 flex items-center justify-center gap-4">
             <span class="h-px w-12 bg-amber"></span>
-            <span class="font-body text-[0.65rem] font-medium uppercase tracking-[0.4em] text-amber"
+            <span class="font-body text-xs font-medium uppercase tracking-[0.4em] text-amber"
               >Rýmið</span
             >
             <span class="h-px w-12 bg-amber"></span>
@@ -403,7 +430,7 @@ const galleryPhotos = [
           >
             Inni í hellinum
           </h2>
-          <p class="mt-4 font-body text-stone">
+          <p class="mt-4 font-body text-lg text-stone">
             Andrúmsloftið í myndum.
           </p>
         </div>
@@ -438,7 +465,7 @@ const galleryPhotos = [
       </div>
 
       <div class="mt-8 flex items-center justify-center gap-3">
-        <span class="font-body text-[0.65rem] tracking-widest text-stone-dark">SKROLLA</span>
+        <span class="font-body text-xs tracking-widest text-stone-dark">SKROLLA</span>
         <svg class="h-4 w-4 text-stone-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"
           ></path>
@@ -460,7 +487,7 @@ const galleryPhotos = [
         <div class="reveal mb-20 max-w-2xl">
           <div class="mb-6 flex items-center gap-4">
             <span class="h-px w-12 bg-amber"></span>
-            <span class="font-body text-[0.65rem] font-medium uppercase tracking-[0.4em] text-amber"
+            <span class="font-body text-xs font-medium uppercase tracking-[0.4em] text-amber"
               >Finndu okkur</span
             >
           </div>
@@ -469,32 +496,48 @@ const galleryPhotos = [
           >
             Heimsókn og samband
           </h2>
-          <p class="mt-6 font-body text-lg text-stone">
+          <p class="mt-6 font-body text-xl text-stone">
             Engar tímapantanir — bara mættu þegar við erum opin.
           </p>
         </div>
 
         <div class="grid gap-16 lg:grid-cols-2 lg:gap-24">
           <div class="reveal space-y-12">
+            <div class="relative aspect-[4/3] overflow-hidden rounded-sm border border-border bg-surface">
+              <Image
+                src={storefront}
+                alt="Húsnæði Shave Cave klippistofu við Fákafeni 9, 108 Reykjavík"
+                width={1100}
+                quality={80}
+                format="webp"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+              <div
+                class="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/50 to-transparent"
+                aria-hidden="true"
+              >
+              </div>
+            </div>
+
             <div>
-              <h3 class="font-display text-xs tracking-[0.25em] text-amber">
+              <h3 class="font-display text-sm tracking-[0.25em] text-amber">
                 Staðsetning
               </h3>
-              <p class="mt-4 font-body text-xl text-cream">
+              <p class="mt-4 font-body text-2xl text-cream">
                 {business.street}<br />
                 <span class="text-stone">{business.postalCode} {business.city}</span>
               </p>
             </div>
 
             <div>
-              <h3 class="font-display text-xs tracking-[0.25em] text-amber">
+              <h3 class="font-display text-sm tracking-[0.25em] text-amber">
                 Sími og netfang
               </h3>
               <div class="mt-4 space-y-2">
                 <p>
                   <a
                     href={`tel:${business.phoneHref}`}
-                    class="font-body text-xl text-cream transition-colors hover:text-amber-light"
+                    class="font-body text-2xl text-cream transition-colors hover:text-amber-light"
                   >
                     {business.phoneDisplay}
                   </a>
@@ -502,7 +545,7 @@ const galleryPhotos = [
                 <p>
                   <a
                     href={`mailto:${business.email}`}
-                    class="font-body text-lg text-stone transition-colors hover:text-amber-light"
+                    class="font-body text-xl text-stone transition-colors hover:text-amber-light"
                   >
                     {business.email}
                   </a>
@@ -518,7 +561,8 @@ const galleryPhotos = [
               href="https://www.google.com/maps/dir/?api=1&destination=F%C3%A1kafeni+9,+108+Reykjav%C3%ADk,+Iceland"
               target="_blank"
               rel="noopener noreferrer"
-              class="group relative block min-h-[360px] overflow-hidden rounded-sm border border-border bg-surface"
+              data-directions
+              class="group relative block aspect-[4/3] overflow-hidden rounded-sm border border-border bg-surface"
               aria-label="Opna leiðarlýsingu að Fákafeni 9 í Google Maps"
             >
               <img
@@ -541,10 +585,10 @@ const galleryPhotos = [
             </a>
 
             <div class="rounded-sm border border-border bg-surface/40 px-8 py-6">
-              <h3 class="font-display text-xs tracking-[0.25em] text-amber">
+              <h3 class="font-display text-sm tracking-[0.25em] text-amber">
                 Opnunartími
               </h3>
-              <dl class="mt-4 space-y-2.5 font-body text-sm">
+              <dl class="mt-4 space-y-2.5 font-body text-base">
                 <div class="flex items-center justify-between gap-4">
                   <dt class="text-cream">Mán — Fös</dt>
                   <dd class="tabular-nums text-stone">{hours.weekdayOpen} — {hours.weekdayClose}</dd>
@@ -561,10 +605,10 @@ const galleryPhotos = [
             </div>
 
             <div class="rounded-sm border border-amber/20 bg-amber/[0.04] px-8 py-6 text-center">
-              <p class="font-display text-sm tracking-[0.15em] text-amber-light">
+              <p class="font-display text-base tracking-[0.15em] text-amber-light">
                 Engar tímapantanir
               </p>
-              <p class="mt-2 font-body text-sm text-stone">
+              <p class="mt-2 font-body text-base text-stone">
                 Klippum alla — bara mættu þegar við erum opin.
               </p>
             </div>
@@ -583,45 +627,41 @@ const galleryPhotos = [
     >
       <a
         href="#hero"
-        class="font-display text-sm font-semibold tracking-[0.3em] text-cream"
+        class="flex items-center"
         aria-label="ShaveCave — efst á síðu"
       >
-        SHAVE<span class="text-amber">CAVE</span>
+        <img
+          src="/images/logo.png"
+          alt=""
+          width="854"
+          height="854"
+          class="h-16 w-16 object-contain"
+        />
       </a>
 
       <div class="flex items-center gap-8">
         <a
-          href="https://www.facebook.com/shavecave"
+          href={business.facebook}
           target="_blank"
           rel="noopener noreferrer"
           class="text-stone transition-colors hover:text-amber-light"
           aria-label="Facebook"
         >
-          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="h-9 w-9" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
             ></path>
           </svg>
         </a>
-        <a
-          href="https://www.instagram.com/shavecave/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-stone transition-colors hover:text-amber-light"
-          aria-label="Instagram"
-        >
-          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-            ></path>
-          </svg>
-        </a>
       </div>
 
-      <p class="font-body text-xs tracking-wider text-stone-dark">
-        © 2026 ShaveCave. Allur réttur áskilinn.
-      </p>
     </div>
+
+    <p
+      class="mx-auto mt-10 max-w-7xl px-6 text-center font-body text-xs tracking-wider text-stone-dark md:px-10"
+    >
+      © 2026 ShaveCave. Allur réttur áskilinn.
+    </p>
   </footer>
 
   <!-- ═══════════════════════════════════════════════════════
@@ -726,6 +766,64 @@ const galleryPhotos = [
           );
         });
       });
+
+      // ── Directions: start from the visitor's current location ─────────
+      // The "Leiðarlýsing" links point at a Google Maps directions URL with
+      // no origin, so Google guesses the start (on desktop ≈ the IP city —
+      // "always the same spot"). If the browser can share the visitor's
+      // location, inject it as the origin so the route starts where they
+      // actually are. The directions tab opens immediately (never blank, never
+      // popup-blocked) and is upgraded in place once geolocation resolves.
+      // Modifier / non-primary clicks fall through to the native
+      // rel="noopener" anchor (open-in-new-tab, etc.).
+      document
+        .querySelectorAll<HTMLAnchorElement>("a[data-directions]")
+        .forEach((link) => {
+          link.addEventListener("click", (e) => {
+            if (
+              !navigator.geolocation ||
+              e.button !== 0 ||
+              e.metaKey ||
+              e.ctrlKey ||
+              e.shiftKey ||
+              e.altKey
+            )
+              return;
+            e.preventDefault();
+            const fallback = link.href;
+            // Open the directions right away (no blank/hung tab) and sever the
+            // opener back-reference — rel="noopener" on the anchor does not
+            // carry to window.open(). Upgrade the URL in place once we have a
+            // location; on denial/timeout the fallback is already showing.
+            const tab = window.open("", "_blank");
+            if (tab) {
+              tab.opener = null;
+              tab.location.href = fallback;
+            }
+            const go = (url: string) => {
+              if (tab) tab.location.href = url;
+              else window.location.href = url;
+            };
+            navigator.geolocation.getCurrentPosition(
+              (pos) => {
+                try {
+                  const url = new URL(fallback);
+                  url.searchParams.set(
+                    "origin",
+                    `${pos.coords.latitude},${pos.coords.longitude}`
+                  );
+                  go(url.href);
+                } catch {
+                  if (!tab) go(fallback);
+                }
+              },
+              () => {
+                if (!tab) go(fallback);
+              },
+              { enableHighAccuracy: false, timeout: 8000, maximumAge: 300000 }
+            );
+          });
+        });
 
       // ── Open / Closed status ──────────────────────────
       // Open/close minutes come from the #status-badge data attributes, which

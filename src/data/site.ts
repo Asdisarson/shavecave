@@ -3,6 +3,8 @@
 // data (src/layouts/Layout.astro) so the visible content and the JSON-LD can
 // never silently drift apart. Edit here, in one place.
 
+const facebook = "https://www.facebook.com/ShaveCaveKlippistofa";
+
 export const business = {
   name: "ShaveCave",
   street: "Fákafeni 9",
@@ -18,10 +20,9 @@ export const business = {
   /** E.164 form for structured data. */
   telephone: "+354 551 1886",
   email: "shavecave@shavecave.is",
-  sameAs: [
-    "https://www.facebook.com/shavecave",
-    "https://www.instagram.com/shavecave/",
-  ],
+  /** Social profiles — also used (as `sameAs`) in the HairSalon JSON-LD. */
+  facebook,
+  sameAs: [facebook],
 } as const;
 
 // Service names + descriptions. Prices are intentionally not shown.

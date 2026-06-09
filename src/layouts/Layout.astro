@@ -23,9 +23,9 @@ interface Props {
 }
 
 const {
-  title = "ShaveCave — Klippistofa í Reykjavík",
+  title = "ShaveCave — Klippistofa án tímapantana í Reykjavík",
   description =
-    "Klippistofa án tímapantana í Reykjavík. Herraklippingar, skeggsnyrtingar og rakstur — bara mættu þegar við erum opin.",
+    "ShaveCave er klippistofa án tímapantana við Fákafeni 9 í Reykjavík. Herraklippingar, skeggsnyrting og rakstur — engin bókun, bara mættu þegar opið er.",
   image = "/og.png",
   noindex = false,
 } = Astro.props;
@@ -40,10 +40,13 @@ const ogImage = new URL(image, site);
 // can never drift from what visitors see.
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "HairSalon",
+  "@type": ["BarberShop", "HairSalon"],
   "@id": new URL("#business", site).href,
   name: business.name,
   description,
+  slogan: "Engar tímapantanir. Ekkert vesen.",
+  priceRange: "$$",
+  knowsLanguage: "is",
   url: site.href,
   image: ogImage.href,
   logo: new URL("/images/logo.png", site).href,
@@ -102,6 +105,12 @@ const jsonLd = {
     }
     <meta name="theme-color" content="#040404" />
 
+    <!-- Local SEO: geo tags -->
+    <meta name="geo.region" content="IS" />
+    <meta name="geo.placename" content={business.city} />
+    <meta name="geo.position" content={`${business.lat};${business.lng}`} />
+    <meta name="ICBM" content={`${business.lat}, ${business.lng}`} />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="ShaveCave" />
@@ -122,9 +131,10 @@ const jsonLd = {
     <meta name="twitter:image" content={ogImage.href} />
     <meta name="twitter:image:alt" content="ShaveCave — klippistofa í Reykjavík" />
 
-    <!-- Icons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Icons (generated from the logo by scripts/generate-og-assets.mjs) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
