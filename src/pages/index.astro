@@ -1,0 +1,785 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { services, business, hours, hoursMinutes } from "../data/site";
+---
+
+<Layout>
+  <!-- ═══════════════════════════════════════════════════════
+       NAV
+       ═══════════════════════════════════════════════════════ -->
+  <header
+    id="nav"
+    class="fixed top-0 z-50 w-full transition-all duration-500"
+  >
+    <div
+      class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10"
+    >
+      <a
+        href="#hero"
+        class="font-display text-base font-semibold tracking-[0.3em] text-cream md:text-lg"
+        aria-label="ShaveCave — efst á síðu"
+      >
+        SHAVE<span class="text-amber">CAVE</span>
+      </a>
+
+      <nav class="hidden items-center gap-10 md:flex" aria-label="Primary">
+        {
+          [
+            { label: "Um okkur", href: "#about" },
+            { label: "Þjónusta", href: "#services" },
+            { label: "Myndir", href: "#gallery" },
+            { label: "Finndu okkur", href: "#find-us" },
+          ].map((item) => (
+            <a
+              href={item.href}
+              class="group relative font-body text-[0.8rem] font-medium tracking-[0.15em] uppercase text-stone transition-colors hover:text-amber-light"
+            >
+              {item.label}
+              <span class="absolute -bottom-1 left-0 h-px w-0 bg-amber transition-all duration-300 group-hover:w-full" />
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="hidden items-center gap-4 md:flex">
+        <div
+          class="flex items-center gap-2"
+          id="status-badge"
+          data-open-min={hoursMinutes.open}
+          data-close-min={hoursMinutes.close}
+        >
+          <span class="status-dot h-2 w-2 rounded-full bg-stone-dark"></span>
+          <span
+            class="font-body text-[0.7rem] font-medium uppercase tracking-widest text-stone-dark"
+            id="status-text">—</span
+          >
+        </div>
+      </div>
+
+      <button
+        type="button"
+        id="nav-toggle"
+        class="flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded border border-border bg-surface/80 backdrop-blur-sm md:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Opna valmynd"
+      >
+        <span class="nav-bar block h-[1.5px] w-5 bg-cream transition-all duration-300"></span>
+        <span class="nav-bar block h-[1.5px] w-5 bg-cream transition-all duration-300"></span>
+        <span class="nav-bar block h-[1.5px] w-5 bg-cream transition-all duration-300"></span>
+      </button>
+    </div>
+
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 z-40 flex translate-x-full flex-col bg-void/98 pt-24 backdrop-blur-xl transition-transform duration-500 md:hidden"
+    >
+      <nav class="flex flex-col gap-2 px-8 py-6" aria-label="Mobile">
+        {
+          [
+            { label: "Um okkur", href: "#about" },
+            { label: "Þjónusta", href: "#services" },
+            { label: "Myndir", href: "#gallery" },
+            { label: "Finndu okkur", href: "#find-us" },
+          ].map((item, i) => (
+            <a
+              href={item.href}
+              class="mobile-link border-b border-border py-5 font-display text-2xl tracking-[0.2em] text-cream transition-all hover:text-amber"
+              style={`transition-delay: ${i * 80}ms`}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+        <div class="mt-8 flex items-center gap-3" id="mobile-status">
+          <span class="status-dot h-2.5 w-2.5 rounded-full bg-stone-dark"
+          ></span>
+          <span
+            class="font-body text-sm tracking-widest text-stone-dark"
+            id="mobile-status-text">—</span
+          >
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Fixed logo watermark — stays centered on viewport while scrolling -->
+  <div
+    id="logo-watermark"
+    class="logo-watermark pointer-events-none fixed inset-0 z-[1] flex items-center justify-center"
+    aria-hidden="true"
+  >
+    <div class="logo-watermark-inner relative">
+      <div class="absolute inset-[-50%] rounded-full bg-[radial-gradient(circle,rgba(200,150,90,0.10)_0%,rgba(200,150,90,0.03)_40%,transparent_65%)]"></div>
+      <img
+        src="/images/logo.png"
+        alt=""
+        class="h-[55vh] w-[55vh] max-h-[550px] max-w-[550px] object-contain drop-shadow-[0_0_120px_rgba(200,150,90,0.2)] sm:h-[65vh] sm:w-[65vh]"
+        width="854"
+        height="854"
+      />
+    </div>
+  </div>
+
+  <main>
+    <!-- ═══════════════════════════════════════════════════════
+         HERO
+         ═══════════════════════════════════════════════════════ -->
+    <section
+      class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6"
+      aria-label="Hero"
+      id="hero"
+    >
+      <div class="pointer-events-none absolute inset-0 bg-void" aria-hidden="true"></div>
+
+      <div
+        class="hero-glow pointer-events-none absolute -top-[20%] left-1/2 h-[140%] w-[160%] -translate-x-1/2"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div
+        class="pointer-events-none absolute bottom-0 left-0 h-1/3 w-full bg-gradient-to-t from-void to-transparent"
+        aria-hidden="true"
+      >
+      </div>
+
+      <!-- Ember particles -->
+      <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        {
+          Array.from({ length: 15 }).map(() => (
+            <div
+              class="ember"
+              style={`--x: ${8 + Math.random() * 84}%; --delay: ${Math.random() * 12}s; --duration: ${8 + Math.random() * 10}s; width: ${1.5 + Math.random() * 2.5}px; height: ${1.5 + Math.random() * 2.5}px;`}
+            />
+          ))
+        }
+      </div>
+
+      <div class="hero-content-delayed relative z-10 mx-auto max-w-5xl text-center">
+        <p
+          class="reveal mb-8 font-body text-[0.65rem] font-medium uppercase tracking-[0.6em] text-amber md:text-xs"
+        >
+          Fákafeni 9 · Reykjavík
+        </p>
+
+        <h1
+          id="hero-title"
+          class="font-display text-[3.2rem] font-semibold leading-none tracking-[0.18em] text-cream sm:text-7xl md:text-8xl lg:text-9xl"
+          aria-label="ShaveCave"
+        >
+          SHAVE<span class="text-amber">CAVE</span>
+        </h1>
+
+        <div class="mx-auto mt-10 max-w-md">
+          <p
+            class="reveal delay-3 font-body text-lg leading-relaxed font-light text-stone md:text-xl"
+          >
+            Engar tímapantanir. Ekkert vesen.<br />Bara nákvæmni og handverk.
+          </p>
+        </div>
+
+        <div
+          class="reveal delay-4 mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row"
+        >
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Fákafeni+9,+108+Reykjavík,+Iceland"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-sm border border-amber/40 bg-amber/10 px-12 py-4 font-body text-sm font-medium tracking-[0.2em] uppercase text-amber-light transition-all duration-300 hover:border-amber hover:bg-amber/20 hover:shadow-[0_0_60px_-10px_rgba(200,150,90,0.5)]"
+          >
+            <svg class="relative z-10 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span class="relative z-10">Leiðarlýsing</span>
+            <div
+              class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-amber/10 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+            >
+            </div>
+          </a>
+          <a
+            href="#services"
+            class="inline-flex items-center justify-center rounded-sm border border-border px-12 py-4 font-body text-sm font-medium tracking-[0.2em] uppercase text-stone transition-all duration-300 hover:border-amber/40 hover:text-cream"
+          >
+            Þjónusta
+          </a>
+        </div>
+      </div>
+
+      <a
+        href="#about"
+        class="hero-content-delayed absolute bottom-12 left-1/2 z-10 -translate-x-1/2 text-stone transition-colors hover:text-amber"
+        aria-label="Scroll down"
+      >
+        <svg
+          class="h-7 w-7 animate-chevron-bounce"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </a>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         ABOUT
+         ═══════════════════════════════════════════════════════ -->
+    <section id="about" class="relative scroll-mt-24 bg-deep py-28 md:py-36">
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-void via-transparent to-transparent opacity-60" aria-hidden="true"></div>
+
+      <div class="relative z-10 mx-auto grid max-w-7xl gap-16 px-6 md:grid-cols-5 md:gap-20 md:px-10">
+        <div class="reveal flex flex-col justify-center md:col-span-3">
+          <div class="mb-6 flex items-center gap-4">
+            <span class="h-px w-12 bg-amber"></span>
+            <span class="font-body text-[0.65rem] font-medium uppercase tracking-[0.4em] text-amber"
+              >Um okkur</span
+            >
+          </div>
+
+          <h2
+            class="font-display text-3xl font-semibold tracking-[0.12em] text-cream md:text-4xl lg:text-5xl"
+          >
+            Skapað fyrir handverkið
+          </h2>
+
+          <p class="mt-8 font-body text-lg leading-relaxed text-stone">
+            Shave Cave er klippistofa í Reykjavík sem sérhæfir sig í herraklippingum og skeggsnyrtingum.
+            Við blandum saman klassískri tækni og nútíma nákvæmni — engar efnameðhöndlanir, ekkert vesen.
+            Bara hvöss verkfæri, stöðugar hendur og rólegt andrúmsloft.
+          </p>
+
+          <p class="mt-6 font-body text-lg leading-relaxed text-stone">
+            Engar tímapantanir. Klippum alla en sérhæfum okkur í herraklippingum og skeggum —
+            skin fade, skeggmótun, rakstur og allt þar á milli.
+          </p>
+
+          <div class="mt-12 grid grid-cols-3 gap-6">
+            {
+              [
+                { num: "10+", label: "Ára reynsla" },
+                { num: "0", label: "Tímapantanir" },
+                { num: "6", label: "Þjónustur" },
+              ].map((stat) => (
+                <div class="reveal border-l border-border pl-5">
+                  <p class="font-display text-2xl font-semibold text-amber md:text-3xl">
+                    {stat.num}
+                  </p>
+                  <p class="mt-1 font-body text-xs tracking-wider text-stone-dark">
+                    {stat.label}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <div
+          class="reveal delay-2 relative md:col-span-2"
+        >
+          <div class="relative aspect-[3/4] overflow-hidden rounded-sm border border-border bg-surface">
+            <div class="absolute inset-0 bg-gradient-to-br from-deep via-surface to-deep"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <svg viewBox="0 0 120 160" class="h-3/5 w-3/5 opacity-[0.07]" fill="none" stroke="currentColor" stroke-width="0.3">
+                <path d="M60 10 L60 150" class="text-amber"></path>
+                <circle cx="60" cy="40" r="25" class="text-amber"></circle>
+                <circle cx="60" cy="80" r="35" class="text-border-light"></circle>
+                <circle cx="60" cy="120" r="15" class="text-amber"></circle>
+              </svg>
+            </div>
+            <div
+              class="pointer-events-none absolute inset-0 bg-gradient-to-t from-deep/80 via-transparent to-amber/5"
+              aria-hidden="true"
+            >
+            </div>
+            <p
+              class="absolute bottom-6 left-6 font-display text-[0.6rem] tracking-[0.35em] text-cream/50"
+            >
+              EST. REYKJAVÍK
+            </p>
+          </div>
+
+          <div
+            class="absolute -top-4 -right-4 h-32 w-32 rounded-full bg-amber/[0.04] blur-3xl"
+            aria-hidden="true"
+          >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SERVICES
+         ═══════════════════════════════════════════════════════ -->
+    <section id="services" class="relative scroll-mt-24 bg-void py-28 md:py-36">
+      <div
+        class="pointer-events-none absolute top-0 left-1/2 h-px w-4/5 max-w-4xl -translate-x-1/2 bg-gradient-to-r from-transparent via-amber/30 to-transparent"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div class="mx-auto max-w-7xl px-6 md:px-10">
+        <div class="reveal mb-20 max-w-2xl">
+          <div class="mb-6 flex items-center gap-4">
+            <span class="h-px w-12 bg-amber"></span>
+            <span class="font-body text-[0.65rem] font-medium uppercase tracking-[0.4em] text-amber"
+              >Þjónusta</span
+            >
+          </div>
+          <h2
+            class="font-display text-3xl font-semibold tracking-[0.12em] text-cream md:text-4xl lg:text-5xl"
+          >
+            Þjónustan okkar
+          </h2>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" id="services-grid">
+          {
+            services.map((s, i) => (
+              <article
+                class={`service-card reveal ${i > 0 ? `delay-${Math.min(i, 5)}` : ""} group rounded-sm border border-border bg-surface/60 p-8 transition-all duration-500 hover:-translate-y-1 hover:border-amber/30 hover:bg-surface/90 hover:shadow-[0_8px_60px_-15px_rgba(200,150,90,0.2)]`}
+              >
+                <div class="relative z-10">
+                  <h3 class="font-display text-xl tracking-wide text-cream transition-colors group-hover:text-amber-light">
+                    {s.name}
+                  </h3>
+                  <p class="mt-5 font-body text-sm leading-relaxed text-stone">
+                    {s.desc}
+                  </p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <p class="reveal mt-10 text-center font-body text-sm text-stone-dark">
+          Engar efnameðhöndlanir
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         GALLERY
+         ═══════════════════════════════════════════════════════ -->
+    <section id="gallery" class="relative scroll-mt-24 bg-deep py-28 md:py-36">
+      <div
+        class="pointer-events-none absolute top-0 left-1/2 h-px w-4/5 max-w-4xl -translate-x-1/2 bg-gradient-to-r from-transparent via-border-light to-transparent"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div class="mx-auto max-w-7xl px-6 md:px-10">
+        <div class="reveal mb-16 text-center">
+          <div class="mb-6 flex items-center justify-center gap-4">
+            <span class="h-px w-12 bg-amber"></span>
+            <span class="font-body text-[0.65rem] font-medium uppercase tracking-[0.4em] text-amber"
+              >Rýmið</span
+            >
+            <span class="h-px w-12 bg-amber"></span>
+          </div>
+          <h2
+            class="font-display text-3xl font-semibold tracking-[0.12em] text-cream md:text-4xl lg:text-5xl"
+          >
+            Inni í hellinum
+          </h2>
+          <p class="mt-4 font-body text-stone">
+            Andrúmsloftið í myndum.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="gallery-scroll flex gap-4 overflow-x-auto px-6 pb-4 snap-x snap-mandatory md:px-10"
+      >
+        <div class="shrink-0 w-[calc(50vw-12rem)] md:w-[calc(50vw-20rem)]" aria-hidden="true"></div>
+        {
+          [
+            { w: "22rem", h: "28rem", hue: 25 },
+            { w: "18rem", h: "22rem", hue: 35 },
+            { w: "24rem", h: "18rem", hue: 20 },
+            { w: "20rem", h: "26rem", hue: 30 },
+            { w: "16rem", h: "20rem", hue: 40 },
+            { w: "22rem", h: "24rem", hue: 15 },
+          ].map((img, i) => (
+            <div
+              class={`reveal-scale ${i > 0 ? `delay-${Math.min(i, 5)}` : ""} group relative shrink-0 snap-center overflow-hidden rounded-sm border border-border bg-surface`}
+              style={`width: ${img.w}; height: ${img.h};`}
+            >
+              <div
+                class="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
+                style={`background: linear-gradient(${135 + i * 30}deg, hsl(${img.hue}, 35%, 6%) 0%, hsl(${img.hue}, 45%, 12%) 50%, hsl(${img.hue}, 30%, 5%) 100%);`}
+              />
+              <div class="absolute inset-0 flex items-center justify-center">
+                <svg
+                  viewBox="0 0 100 100"
+                  class="h-16 w-16 opacity-[0.06] transition-opacity group-hover:opacity-[0.12]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="0.5"
+                >
+                  <circle cx="50" cy="50" r={30 + i * 3} class="text-amber" />
+                  <line
+                    x1={20 + i * 5}
+                    y1={20 + i * 5}
+                    x2={80 - i * 5}
+                    y2={80 - i * 5}
+                    class="text-amber"
+                  />
+                </svg>
+              </div>
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+              <span class="absolute bottom-5 left-5 font-display text-[0.6rem] tracking-[0.3em] text-cream/0 transition-all duration-500 group-hover:text-cream/80">
+                SHAVECAVE
+              </span>
+            </div>
+          ))
+        }
+        <div class="shrink-0 w-[calc(50vw-12rem)] md:w-[calc(50vw-20rem)]" aria-hidden="true"></div>
+      </div>
+
+      <div class="mt-8 flex items-center justify-center gap-3">
+        <span class="font-body text-[0.65rem] tracking-widest text-stone-dark">SKROLLA</span>
+        <svg class="h-4 w-4 text-stone-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"
+          ></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         FIND US / CONTACT
+         ═══════════════════════════════════════════════════════ -->
+    <section id="find-us" class="relative scroll-mt-24 bg-void py-28 md:py-36">
+      <div
+        class="pointer-events-none absolute top-0 left-1/2 h-px w-4/5 max-w-4xl -translate-x-1/2 bg-gradient-to-r from-transparent via-amber/30 to-transparent"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div class="mx-auto max-w-7xl px-6 md:px-10">
+        <div class="reveal mb-20 max-w-2xl">
+          <div class="mb-6 flex items-center gap-4">
+            <span class="h-px w-12 bg-amber"></span>
+            <span class="font-body text-[0.65rem] font-medium uppercase tracking-[0.4em] text-amber"
+              >Finndu okkur</span
+            >
+          </div>
+          <h2
+            class="font-display text-3xl font-semibold tracking-[0.12em] text-cream md:text-4xl lg:text-5xl"
+          >
+            Heimsókn og samband
+          </h2>
+          <p class="mt-6 font-body text-lg text-stone">
+            Engar tímapantanir — bara mættu þegar við erum opin.
+          </p>
+        </div>
+
+        <div class="grid gap-16 lg:grid-cols-2 lg:gap-24">
+          <div class="reveal space-y-12">
+            <div>
+              <h3 class="font-display text-xs tracking-[0.25em] text-amber">
+                Staðsetning
+              </h3>
+              <p class="mt-4 font-body text-xl text-cream">
+                {business.street}<br />
+                <span class="text-stone">{business.postalCode} {business.city}</span>
+              </p>
+            </div>
+
+            <div>
+              <h3 class="font-display text-xs tracking-[0.25em] text-amber">
+                Sími og netfang
+              </h3>
+              <div class="mt-4 space-y-2">
+                <p>
+                  <a
+                    href={`tel:${business.phoneHref}`}
+                    class="font-body text-xl text-cream transition-colors hover:text-amber-light"
+                  >
+                    {business.phoneDisplay}
+                  </a>
+                </p>
+                <p>
+                  <a
+                    href={`mailto:${business.email}`}
+                    class="font-body text-lg text-stone transition-colors hover:text-amber-light"
+                  >
+                    {business.email}
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-display text-xs tracking-[0.25em] text-amber">
+                Opnunartími
+              </h3>
+              <table class="mt-5 w-full max-w-sm font-body text-stone">
+                <tbody>
+                  <tr class="border-b border-border">
+                    <td class="py-4 pr-8 text-cream">Mán — Fös</td>
+                    <td class="py-4 tabular-nums">{hours.weekdayOpen} — {hours.weekdayClose}</td>
+                  </tr>
+                  <tr class="border-b border-border">
+                    <td class="py-4 pr-8 text-cream">Laugardagur</td>
+                    <td class="py-4 text-stone-dark">Lokað</td>
+                  </tr>
+                  <tr class="border-b border-border">
+                    <td class="py-4 pr-8 text-cream">Sunnudagur</td>
+                    <td class="py-4 text-stone-dark">Lokað</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="reveal delay-2 flex flex-col gap-6">
+            <div
+              class="relative min-h-[360px] overflow-hidden rounded-sm border border-border bg-surface"
+            >
+              <iframe
+                src="https://maps.google.com/maps?q=F%C3%A1kafeni+9%2C+108+Reykjav%C3%ADk&z=15&hl=is&output=embed"
+                class="absolute inset-0 h-full w-full border-0 opacity-70 grayscale invert-[0.92] contrast-[1.2] saturate-[0.15] transition-opacity hover:opacity-90"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                title="Staðsetning ShaveCave á Google Maps"></iframe>
+              <div
+                class="pointer-events-none absolute inset-0 border border-border bg-gradient-to-t from-void/40 to-transparent"
+              >
+              </div>
+            </div>
+
+            <div class="rounded-sm border border-amber/20 bg-amber/[0.04] px-8 py-6 text-center">
+              <p class="font-display text-sm tracking-[0.15em] text-amber-light">
+                Engar tímapantanir
+              </p>
+              <p class="mt-2 font-body text-sm text-stone">
+                Klippum alla — bara mættu þegar við erum opin.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════ -->
+  <footer class="border-t border-border bg-deep py-14">
+    <div
+      class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-10 px-6 md:flex-row md:px-10"
+    >
+      <a
+        href="#hero"
+        class="font-display text-sm font-semibold tracking-[0.3em] text-cream"
+        aria-label="ShaveCave — efst á síðu"
+      >
+        SHAVE<span class="text-amber">CAVE</span>
+      </a>
+
+      <div class="flex items-center gap-8">
+        <a
+          href="https://www.facebook.com/shavecave"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-stone transition-colors hover:text-amber-light"
+          aria-label="Facebook"
+        >
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+            ></path>
+          </svg>
+        </a>
+        <a
+          href="https://www.instagram.com/shavecave/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-stone transition-colors hover:text-amber-light"
+          aria-label="Instagram"
+        >
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+
+      <p class="font-body text-xs tracking-wider text-stone-dark">
+        © 2026 ShaveCave. Allur réttur áskilinn.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CLIENT-SIDE SCRIPTS
+       ═══════════════════════════════════════════════════════ -->
+  <script>
+    function init() {
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      // ── Scroll reveals ────────────────────────────────
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      document
+        .querySelectorAll(".reveal, .reveal-scale")
+        .forEach((el) => observer.observe(el));
+
+      // ── Hero character animation ──────────────────────
+      const title = document.getElementById("hero-title");
+      if (title && !reduceMotion) {
+        const html = title.innerHTML;
+        let charIndex = 0;
+        const newHtml = html.replace(/(<[^>]+>)|(\S)/g, (_match, tag, char) => {
+          if (tag) return tag;
+          const delay = charIndex * 0.06;
+          charIndex++;
+          return `<span class="char" style="animation-delay:${delay}s">${char}</span>`;
+        });
+        title.innerHTML = newHtml;
+      }
+
+      // ── Nav scroll state ──────────────────────────────
+      const nav = document.getElementById("nav");
+      if (nav) {
+        const onScroll = () => {
+          nav.classList.toggle("nav-solid", window.scrollY > 60);
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+      }
+
+      // ── Mobile menu ───────────────────────────────────
+      const toggle = document.getElementById("nav-toggle");
+      const menu = document.getElementById("mobile-menu");
+      if (toggle && menu) {
+        let open = false;
+        const setMenu = (state: boolean) => {
+          open = state;
+          menu.classList.toggle("translate-x-full", !open);
+          menu.classList.toggle("translate-x-0", open);
+          toggle.setAttribute("aria-expanded", String(open));
+          toggle.setAttribute("aria-label", open ? "Loka valmynd" : "Opna valmynd");
+          document.body.style.overflow = open ? "hidden" : "";
+
+          const bars = toggle.querySelectorAll(".nav-bar");
+          if (open) {
+            bars[0]?.classList.add("translate-y-[6.5px]", "rotate-45");
+            bars[1]?.classList.add("opacity-0");
+            bars[2]?.classList.add("-translate-y-[6.5px]", "-rotate-45");
+          } else {
+            bars[0]?.classList.remove("translate-y-[6.5px]", "rotate-45");
+            bars[1]?.classList.remove("opacity-0");
+            bars[2]?.classList.remove("-translate-y-[6.5px]", "-rotate-45");
+          }
+        };
+        toggle.addEventListener("click", () => setMenu(!open));
+        menu.querySelectorAll("a").forEach((a) =>
+          a.addEventListener("click", () => setMenu(false))
+        );
+        // If the viewport grows past the mobile breakpoint while the menu is
+        // open, close it — otherwise the hamburger disappears and <body> stays
+        // scroll-locked with no way to recover. (md = 768px)
+        window
+          .matchMedia("(min-width: 768px)")
+          .addEventListener("change", (e) => {
+            if (e.matches && open) setMenu(false);
+          });
+      }
+
+      // ── Service card spotlight ────────────────────────
+      document.querySelectorAll<HTMLElement>(".service-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty(
+            "--mouse-x",
+            `${e.clientX - rect.left}px`
+          );
+          card.style.setProperty(
+            "--mouse-y",
+            `${e.clientY - rect.top}px`
+          );
+        });
+      });
+
+      // ── Open / Closed status ──────────────────────────
+      // Open/close minutes come from the #status-badge data attributes, which
+      // are derived from src/data/site.ts — kept in sync with the hours table.
+      const statusBadge = document.getElementById("status-badge");
+      const openMin = Number(statusBadge?.dataset.openMin ?? 555);
+      const closeMin = Number(statusBadge?.dataset.closeMin ?? 1080);
+      const updateStatus = () => {
+        const now = new Date();
+        const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+        const reykjavik = new Date(utc); // Iceland is UTC+0 year-round
+        const day = reykjavik.getDay();
+        const h = reykjavik.getHours();
+        const m = reykjavik.getMinutes();
+        const mins = h * 60 + m;
+        const isWeekday = day >= 1 && day <= 5;
+        const isOpen = isWeekday && mins >= openMin && mins < closeMin;
+
+        const dots = document.querySelectorAll<HTMLElement>(".status-dot");
+        const texts = [
+          document.getElementById("status-text"),
+          document.getElementById("mobile-status-text"),
+        ];
+
+        dots.forEach((dot) => {
+          dot.classList.toggle("bg-green-500", isOpen);
+          dot.classList.toggle("bg-stone-dark", !isOpen);
+        });
+        texts.forEach((el) => {
+          if (el) {
+            el.textContent = isOpen ? "Opið" : "Lokað";
+            el.classList.toggle("text-green-500", isOpen);
+            el.classList.toggle("text-stone-dark", !isOpen);
+          }
+        });
+      };
+      updateStatus();
+      setInterval(updateStatus, 60_000);
+
+      // ── Hero parallax on scroll ───────────────────────
+      const hero = document.getElementById("hero");
+      if (hero && !reduceMotion) {
+        const heroContent = hero.querySelector(".relative.z-10") as HTMLElement | null;
+        window.addEventListener(
+          "scroll",
+          () => {
+            const scroll = window.scrollY;
+            const vh = window.innerHeight;
+            if (scroll < vh && heroContent) {
+              const progress = scroll / vh;
+              heroContent.style.opacity = `${1 - progress * 1.2}`;
+              heroContent.style.transform = `translateY(${scroll * 0.3}px)`;
+            }
+          },
+          { passive: true }
+        );
+      }
+    }
+
+    init();
+  </script>
+</Layout>

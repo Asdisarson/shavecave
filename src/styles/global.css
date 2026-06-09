@@ -1,0 +1,334 @@
+@import "tailwindcss";
+
+/* ── Theme ─────────────────────────────────────────────── */
+@theme {
+  --color-void: #040404;
+  --color-deep: #0a0908;
+  --color-surface: #13120f;
+  --color-elevated: #1c1b17;
+  --color-border: #2a2722;
+  --color-border-light: #3a3630;
+
+  --color-cream: #f5f0e8;
+  --color-stone: #9a9288;
+  --color-stone-dark: #6b655c;
+
+  --color-amber: #c8966a;
+  --color-amber-light: #e8b878;
+  --color-amber-dark: #a07448;
+  --color-ember: #b85c38;
+
+  --font-display: "Cinzel", serif;
+  --font-body: "Outfit", sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow-breathe: glow-breathe 5s ease-in-out infinite;
+  --animate-ember-rise: ember-rise 12s linear infinite;
+  --animate-chevron-bounce: chevron-bounce 2s ease-in-out infinite;
+  --animate-spin-slow: spin 40s linear infinite;
+  --animate-grain: grain 0.5s steps(1) infinite;
+}
+
+/* ── Keyframes ─────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.04); }
+}
+
+@keyframes ember-rise {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 1; transform: translateY(80vh) scale(1); }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-20vh) scale(0.3); opacity: 0; }
+}
+
+@keyframes chevron-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -2%); }
+  20% { transform: translate(2%, 1%); }
+  30% { transform: translate(-1%, 2%); }
+  40% { transform: translate(1%, -1%); }
+  50% { transform: translate(-2%, 2%); }
+  60% { transform: translate(2%, -2%); }
+  70% { transform: translate(-1%, 1%); }
+  80% { transform: translate(1%, 2%); }
+  90% { transform: translate(-2%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(36px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes reveal-scale {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes char-in {
+  from { opacity: 0; transform: translateY(40px) rotateX(-60deg); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0) rotateX(0deg); filter: blur(0px); }
+}
+
+@keyframes line-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── Base ──────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: var(--color-amber-dark) var(--color-void);
+  scrollbar-width: thin;
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-amber);
+  color: var(--color-void);
+}
+
+/* ── Fixed logo watermark ──────────────────────────────── */
+@keyframes logo-intro {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: brightness(1.3) blur(4px);
+  }
+  15% {
+    opacity: 0.45;
+    transform: scale(1);
+    filter: brightness(1.2) blur(0px);
+  }
+  40% {
+    opacity: 0.45;
+    transform: scale(1);
+    filter: brightness(1.2) blur(0px);
+  }
+  100% {
+    opacity: 0.05;
+    transform: scale(1);
+    filter: brightness(1) blur(0px);
+  }
+}
+
+@keyframes logo-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.logo-watermark {
+  animation: logo-intro 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.logo-watermark-inner {
+  animation: logo-drift 12s ease-in-out infinite;
+}
+
+@keyframes hero-content-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero-content-delayed {
+  opacity: 0;
+  animation: hero-content-in 1s ease forwards;
+  animation-delay: 2s;
+}
+
+/* ── Noise texture overlay ─────────────────────────────── */
+.noise {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+  animation: grain 0.5s steps(1) infinite;
+}
+
+/* ── Reveal system ─────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+}
+
+.reveal.visible {
+  animation: reveal-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.reveal-scale.visible {
+  animation: reveal-scale 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.12s !important; }
+.delay-2 { animation-delay: 0.24s !important; }
+.delay-3 { animation-delay: 0.36s !important; }
+.delay-4 { animation-delay: 0.48s !important; }
+.delay-5 { animation-delay: 0.60s !important; }
+
+/* ── Hero character animation ──────────────────────────── */
+.char {
+  display: inline-block;
+  opacity: 0;
+  animation: char-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: bottom center;
+}
+
+/* ── Ember particles ───────────────────────────────────── */
+.ember {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-amber);
+  box-shadow: 0 0 6px 2px var(--color-amber-dark);
+  animation: ember-rise var(--duration, 12s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  left: var(--x, 50%);
+  opacity: 0;
+}
+
+/* ── Glow orb ──────────────────────────────────────────── */
+.hero-glow {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(200, 150, 90, 0.2) 0%,
+    rgba(184, 92, 56, 0.08) 30%,
+    transparent 60%
+  );
+  animation: glow-breathe 5s ease-in-out infinite;
+}
+
+/* ── Service card spotlight ────────────────────────────── */
+.service-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(200, 150, 90, 0.08) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.service-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-amber-dark);
+  border-radius: 3px;
+}
+
+/* ── Gallery scroll ────────────────────────────────────── */
+.gallery-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gallery-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Nav states ────────────────────────────────────────── */
+.nav-solid {
+  background-color: rgba(4, 4, 4, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ── Status indicator ──────────────────────────────────── */
+.status-dot {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+/* ── Reduced motion ────────────────────────────────────── */
+/* Honour the OS "reduce motion" setting: neutralise all the looping/entrance
+   animations (also stops the continuously-repainting grain overlay) and make
+   sure reveal-on-scroll content is shown immediately. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal-scale,
+  .hero-content-delayed,
+  .char {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .noise,
+  .logo-watermark,
+  .logo-watermark-inner {
+    animation: none !important;
+  }
+
+  .logo-watermark {
+    opacity: 0.05 !important;
+  }
+
+  .ember {
+    display: none !important;
+  }
+}

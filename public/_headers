@@ -1,0 +1,23 @@
+# Response headers for static hosts that read a `_headers` file
+# (Netlify and Cloudflare Pages do, natively). For Vercel/nginx/Apache, mirror
+# these in vercel.json / server config — see README.
+#
+# CSP note: this is a static, input-free brochure site (no forms, no auth, no
+# server). It uses one inline <script> and a few build-time inline style="..."
+# attributes, so the policy allows 'unsafe-inline' for script/style; everything
+# else is locked down (no remote scripts, framing only the Google Maps embed,
+# clickjacking + mixed-content protection). Verified against the built output.
+
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), browsing-topics=()
+  # HSTS for the served host only. Add `; includeSubDomains` (and later `; preload`)
+  # once every shavecave.is subdomain is confirmed HTTPS-only — it's a 1-year commitment.
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src https://*.google.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+
+# Fingerprinted build assets never change — cache them hard.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

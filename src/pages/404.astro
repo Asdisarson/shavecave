@@ -1,0 +1,43 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Síðan finnst ekki — ShaveCave"
+  description="Þessi síða er ekki til. Farðu aftur á forsíðu ShaveCave."
+  noindex={true}
+>
+  <main
+    class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center"
+  >
+    <div class="pointer-events-none absolute inset-0 bg-void" aria-hidden="true">
+    </div>
+    <div
+      class="hero-glow pointer-events-none absolute -top-[20%] left-1/2 h-[140%] w-[160%] -translate-x-1/2"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-xl">
+      <p
+        class="font-body text-[0.7rem] font-medium uppercase tracking-[0.5em] text-amber"
+      >
+        404
+      </p>
+      <h1
+        class="mt-6 font-display text-4xl font-semibold tracking-[0.12em] text-cream sm:text-5xl"
+      >
+        Týndur í hellinum
+      </h1>
+      <p class="mx-auto mt-6 max-w-md font-body text-lg leading-relaxed text-stone">
+        Þessi síða er ekki til — eða hefur verið færð. Förum aftur á byrjunarreit.
+      </p>
+      <a
+        href="/"
+        class="mt-12 inline-flex items-center justify-center rounded-sm border border-amber/40 bg-amber/10 px-12 py-4 font-body text-sm font-medium uppercase tracking-[0.2em] text-amber-light transition-all duration-300 hover:border-amber hover:bg-amber/20 hover:shadow-[0_0_60px_-10px_rgba(200,150,90,0.5)]"
+      >
+        Aftur á forsíðu
+      </a>
+    </div>
+  </main>
+</Layout>

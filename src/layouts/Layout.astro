@@ -1,0 +1,153 @@
+---
+// Self-hosted fonts (replaces the Google Fonts CDN — faster first paint, no
+// third-party request, GDPR-clean). Only the weights actually used are imported.
+import "@fontsource/outfit/200.css";
+import "@fontsource/outfit/300.css";
+import "@fontsource/outfit/400.css";
+import "@fontsource/outfit/500.css";
+import "@fontsource/outfit/600.css";
+import "@fontsource/cinzel/400.css";
+import "@fontsource/cinzel/500.css";
+import "@fontsource/cinzel/600.css";
+import "@fontsource/cinzel/700.css";
+import "../styles/global.css";
+import { business, services, hours } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path or URL to the social-share image. Resolved against `site`. */
+  image?: string;
+  /** Set on pages that should not be indexed (e.g. 404). */
+  noindex?: boolean;
+}
+
+const {
+  title = "ShaveCave — Klippistofa í Reykjavík",
+  description =
+    "Klippistofa án tímapantana í Reykjavík. Herraklippingar, skeggsnyrtingar og rakstur — bara mættu þegar við erum opin.",
+  image = "/og.png",
+  noindex = false,
+} = Astro.props;
+
+// `site` is set in astro.config.mjs; fall back so the layout never throws.
+const site = Astro.site ?? new URL("https://shavecave.is");
+const canonical = new URL(Astro.url.pathname, site);
+const ogImage = new URL(image, site);
+
+// Business info, services and hours come from src/data/site.ts — the single
+// source of truth shared with the visible page, so the structured data below
+// can never drift from what visitors see.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HairSalon",
+  "@id": new URL("#business", site).href,
+  name: business.name,
+  description,
+  url: site.href,
+  image: ogImage.href,
+  logo: new URL("/images/logo.png", site).href,
+  telephone: business.telephone,
+  email: business.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: business.street,
+    addressLocality: business.city,
+    postalCode: business.postalCode,
+    addressCountry: business.country,
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: business.lat,
+    longitude: business.lng,
+  },
+  hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${business.street}, ${business.postalCode} ${business.city}`,
+  )}`,
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: hours.weekdayOpen,
+      closes: hours.weekdayClose,
+    },
+  ],
+  sameAs: business.sameAs,
+  areaServed: { "@type": "City", name: business.city },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Þjónusta",
+    itemListElement: services.map((s) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s.name },
+    })),
+  },
+};
+---
+
+<!doctype html>
+<html lang="is">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!noindex && <link rel="canonical" href={canonical.href} />}
+    {
+      noindex ? (
+        <meta name="robots" content="noindex, nofollow" />
+      ) : (
+        <meta name="robots" content="index, follow, max-image-preview:large" />
+      )
+    }
+    <meta name="theme-color" content="#040404" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ShaveCave" />
+    <meta property="og:locale" content="is_IS" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ShaveCave — klippistofa í Reykjavík" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.href} />
+    <meta name="twitter:image:alt" content="ShaveCave — klippistofa í Reykjavík" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    <!--
+      No-JS fallback: the scroll-reveal system sets opacity:0 and relies on JS
+      (IntersectionObserver) to reveal. If JS never runs, force everything visible
+      so content is never permanently hidden from users or crawlers.
+    -->
+    <noscript>
+      <style>
+        .reveal,
+        .reveal-scale {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="min-h-screen overflow-x-hidden">
+    <div class="noise" aria-hidden="true"></div>
+    <slot />
+  </body>
+</html>
