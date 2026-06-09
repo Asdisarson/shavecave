@@ -509,28 +509,6 @@ const galleryPhotos = [
                 </p>
               </div>
             </div>
-
-            <div>
-              <h3 class="font-display text-xs tracking-[0.25em] text-amber">
-                Opnunartími
-              </h3>
-              <table class="mt-5 w-full max-w-sm font-body text-stone">
-                <tbody>
-                  <tr class="border-b border-border">
-                    <td class="py-4 pr-8 text-cream">Mán — Fös</td>
-                    <td class="py-4 tabular-nums">{hours.weekdayOpen} — {hours.weekdayClose}</td>
-                  </tr>
-                  <tr class="border-b border-border">
-                    <td class="py-4 pr-8 text-cream">Laugardagur</td>
-                    <td class="py-4 text-stone-dark">Lokað</td>
-                  </tr>
-                  <tr class="border-b border-border">
-                    <td class="py-4 pr-8 text-cream">Sunnudagur</td>
-                    <td class="py-4 text-stone-dark">Lokað</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
           </div>
 
           <div class="reveal delay-2 flex flex-col gap-6">
@@ -561,6 +539,26 @@ const galleryPhotos = [
                 >© OpenStreetMap contributors</span
               >
             </a>
+
+            <div class="rounded-sm border border-border bg-surface/40 px-8 py-6">
+              <h3 class="font-display text-xs tracking-[0.25em] text-amber">
+                Opnunartími
+              </h3>
+              <dl class="mt-4 space-y-2.5 font-body text-sm">
+                <div class="flex items-center justify-between gap-4">
+                  <dt class="text-cream">Mán — Fös</dt>
+                  <dd class="tabular-nums text-stone">{hours.weekdayOpen} — {hours.weekdayClose}</dd>
+                </div>
+                <div class="flex items-center justify-between gap-4">
+                  <dt class="text-cream">Laugardagur</dt>
+                  <dd class="text-stone-dark">Lokað</dd>
+                </div>
+                <div class="flex items-center justify-between gap-4">
+                  <dt class="text-cream">Sunnudagur</dt>
+                  <dd class="text-stone-dark">Lokað</dd>
+                </div>
+              </dl>
+            </div>
 
             <div class="rounded-sm border border-amber/20 bg-amber/[0.04] px-8 py-6 text-center">
               <p class="font-display text-sm tracking-[0.15em] text-amber-light">
