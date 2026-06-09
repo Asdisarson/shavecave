@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "gen:assets": "node scripts/generate-og-assets.mjs",
+    "gen:map": "node scripts/generate-map.mjs",
     "astro": "astro"
   },
   "dependencies": {

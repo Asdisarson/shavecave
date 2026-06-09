@@ -540,20 +540,33 @@ import { services, business, hours, hoursMinutes } from "../data/site";
           </div>
 
           <div class="reveal delay-2 flex flex-col gap-6">
-            <div
-              class="relative min-h-[360px] overflow-hidden rounded-sm border border-border bg-surface"
+            <!-- Static map (build-time OpenStreetMap render) — no third-party
+                 request at runtime. Click opens directions in a new tab. -->
+            <a
+              href="https://www.google.com/maps/dir/?api=1&destination=F%C3%A1kafeni+9,+108+Reykjav%C3%ADk,+Iceland"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group relative block min-h-[360px] overflow-hidden rounded-sm border border-border bg-surface"
+              aria-label="Opna leiðarlýsingu að Fákafeni 9 í Google Maps"
             >
-              <iframe
-                src="https://maps.google.com/maps?q=F%C3%A1kafeni+9%2C+108+Reykjav%C3%ADk&z=15&hl=is&output=embed"
-                class="absolute inset-0 h-full w-full border-0 opacity-70 grayscale invert-[0.92] contrast-[1.2] saturate-[0.15] transition-opacity hover:opacity-90"
+              <img
+                src="/map.webp"
+                alt="Kort sem sýnir staðsetningu ShaveCave við Fákafeni 9, 108 Reykjavík"
+                width="768"
+                height="512"
                 loading="lazy"
-                referrerpolicy="strict-origin-when-cross-origin"
-                title="Staðsetning ShaveCave á Google Maps"></iframe>
+                decoding="async"
+                class="absolute inset-0 h-full w-full object-cover opacity-90 transition-opacity duration-300 group-hover:opacity-100"
+              />
               <div
                 class="pointer-events-none absolute inset-0 border border-border bg-gradient-to-t from-void/40 to-transparent"
               >
               </div>
-            </div>
+              <span
+                class="pointer-events-none absolute bottom-1.5 right-2 font-body text-[0.6rem] leading-none text-cream/45"
+                >© OpenStreetMap contributors</span
+              >
+            </a>
 
             <div class="rounded-sm border border-amber/20 bg-amber/[0.04] px-8 py-6 text-center">
               <p class="font-display text-sm tracking-[0.15em] text-amber-light">

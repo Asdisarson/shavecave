@@ -28,6 +28,7 @@ npm run dev        # http://localhost:4321
 | `npm run preview`    | Preview the built site locally               |
 | `npm run check`      | Type-check with `astro check`                |
 | `npm run gen:assets` | Regenerate `og.png` + `apple-touch-icon.png` |
+| `npm run gen:map`    | Regenerate the static location map (`map.webp`) |
 
 ## Deploy
 
@@ -57,7 +58,13 @@ All page content lives in **`src/pages/index.astro`**:
   `HairSalon` JSON-LD structured data. Keep it in sync with the visible content.
 
 If you change the logo (`public/images/logo.png`), run `npm run gen:assets`
-to rebuild the social-share image and touch icon.
+to rebuild the social-share image and touch icon. If you move location (edit
+`lat`/`lng` in `src/data/site.ts`), run `npm run gen:map` to rebuild the map.
+
+The location map (`public/map.webp`) is a build-time render of OpenStreetMap
+tiles (data © OpenStreetMap contributors), embedded as a same-origin image —
+so the site makes **no third-party requests at runtime** (no map iframe, no
+Google cookies). Clicking the map opens directions in a new tab.
 
 ## SEO
 
